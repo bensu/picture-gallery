@@ -9,6 +9,15 @@
      [:id "varchar(32) PRIMARY KEY"]
      [:pass "varchar(100)"])))
 
+(defn create-images-table []
+  (sql/with-connection db
+    (sql/create-table
+       :images
+       [:userid "varchar(32)"]
+       [:name "varchar(100)"])))
+
+
+
 
 
 

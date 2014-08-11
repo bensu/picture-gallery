@@ -28,3 +28,6 @@ db
 (ImageIO/write
 (scale (ImageIO/read (io/input-stream "image.png")) 0.5 150 150) "png"
 (File. "scaled.png"))
+quit
+(use '[picture-gallery.models.schema])
+(create-images-table)
