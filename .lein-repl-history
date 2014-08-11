@@ -20,3 +20,11 @@ db
 (require '[clojure.java.jdbc :as sql])
 (sql/with-connection db
 (sql/with-query-results res ["select * from users"] (println res)))
+(use '[picture-gallery.routes.upload])
+(ImageIO/write
+(scale (ImageIO/read (io/input-stream "image.png")) 0.5 150 150) "png"
+(File. "scaled.png"))
+(require '[picture-gallery.routes.upload])
+(ImageIO/write
+(scale (ImageIO/read (io/input-stream "image.png")) 0.5 150 150) "png"
+(File. "scaled.png"))
