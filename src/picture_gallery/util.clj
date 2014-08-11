@@ -12,7 +12,7 @@
 
 (defn image-uri [userid file-name]
   (let [sep File/separator]
-    (str sep "img" sep userid sep (session/get :user))))
+    (str sep "img" sep userid sep (url-encode file-name))))
 
 (defn thumb-uri [userid file-name]
   (image-uri userid (str thumb-prefix file-name)))

@@ -43,3 +43,7 @@ quit
 (create-user {:id "a" :pass (crypt/encrypt "locos")})
 (require '[noir.util.crypt :as crypt])
 (create-user {:id "a" :pass (crypt/encrypt "locos")})
+quit
+(user '[picture-gallery.models.db])
+(use '[picture-gallery.models.db])
+(images-by-user "sbensu")
