@@ -1,11 +1,8 @@
 (ns picture-gallery.handler
   (:require [compojure.core :refer [defroutes routes]]
-            [ring.middleware.resource :refer [wrap-resource]]
-            [ring.middleware.file-info :refer [wrap-file-info]]
-            [hiccup.middleware :refer [wrap-base-url]]
-            [compojure.handler :as handler]
             [compojure.route :as route]
-            [picture-gallery.routes.home :refer [home-routes]]))
+            [picture-gallery.routes.home :refer [home-routes]]
+            [noir.util.middleware :as noir-middleware]))
 
 (defn init []
   (println "picture-gallery is starting"))
@@ -18,8 +15,5 @@
   (route/not-found "Not Found"))
 
 (def app
-  (-> (routes home-routes app-routes)
-      (handler/site)
-      (wrap-base-url)))
-
+  (noir-middleware/app-handler [home-routes app-routes]))
 
