@@ -26,8 +26,13 @@
             (file-upload :file)
             (submit-button "Upload"))))
 
+(def galleries "galleries")
 (defn gallery-path []
-  "galleries")
+  (str galleries File/separator (session/get :user)))
+
+(defn serve-file [user-id file-name]
+  (let [sep File/separator]
+    (file-response (str galleries sep user-id sep file-name))))
 
 (def thumb-size 150)
 (def thumb-prefix "thumb_")
@@ -62,15 +67,13 @@
        (noir.io/upload-file (gallery-path) file :create-path? true)
        (save-thumbnail file)
        (image {:height "150px"}
-              (str "/img/" (url-encode filename)))
+              (str "/img/" (sessio/get :user) File/separator thumb-prefix (url-encode filename)))
        (catch Exception ex
          (str "Error uploading file " (.getMessage ex)))))))
 
-(defn serve-file [file-name]
-  (file-response (str (gallery-path) File/separator file-name)))
-
 (defroutes upload-routes
-  (GET "/upload" [info] (upload-page info))
-  (POST "/upload" [file] (handle-upload file))
-  (GET "/img/:file-name" [file-name] (serve-file file-name)))
+  (GET "/upload" [info] (restricted (upload-page info)))
+  (POST "/upload" [file] (restricted (handle-upload file)))
+  (GET "/img/:user-id/:file-name" [user-id file-name]
+       (serve-file user-id file-name)))
 

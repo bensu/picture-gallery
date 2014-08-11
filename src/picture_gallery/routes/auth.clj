@@ -7,7 +7,14 @@
             [noir.session :as session]
             [noir.response :as resp]
             [noir.validation :as vali]
-            [noir.util.crypt :as crypt]))
+            [noir.util.crypt :as crypt]
+            [picture-gallery.routes.upload :refer [gallery-path]])
+  (:import java.io.File))
+
+(defn create-gallery-path []
+  (let [user-path (File. (gallery-path))]
+    (if-not (.exists user-path) (.mkdirs user-path))
+    (str (.getAbsolutePath user-path) File/separator)))
 
 (defn valid? [id pass pass1]
   (vali/rule (vali/has-value? id)
@@ -54,6 +61,7 @@
     (try
       (db/create-user {:id id :pass (crypt/encrypt pass)})
       (session/put! :user id)
+      (create-gallery-path)
       (resp/redirect "/")
       (catch Exception ex
         (vali/rule false [:id (format-error id ex)])
