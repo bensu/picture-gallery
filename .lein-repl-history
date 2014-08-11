@@ -14,3 +14,9 @@ db
 (create-users-table)
 (use '[picture-gallery.models.db] :reload)
 (create-users-table)
+(use '[picture-gallery.models.db] :reload)
+(sql/with-connection db
+(sql/with-query-results res ["select * from users"] (println res)))
+(require '[clojure.java.jdbc :as sql])
+(sql/with-connection db
+(sql/with-query-results res ["select * from users"] (println res)))

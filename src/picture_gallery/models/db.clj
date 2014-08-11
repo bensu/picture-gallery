@@ -7,3 +7,9 @@
    :user "admin"
    :password "admin"})
 
+(defn create-user [user]
+  (sql/with-connection db
+    (sql/insert-record :users user)))
+
+
+
