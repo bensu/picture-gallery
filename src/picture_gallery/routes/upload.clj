@@ -11,7 +11,10 @@
             [clojure.java.io :as io]
             [ring.util.response :refer [file-response]]
             [picture-gallery.models.db :as db]
-            ) ;[picture-gallery.util :refer [galleries gallery-path]]
+            [picture-gallery.util :refer [galleries
+                                          gallery-path
+                                          thumb-prefix
+                                          thumb-uri]])
   (:import [java.io File FileInputStream FileOutputStream]
            [java.awt.image AffineTransformOp BufferedImage]
            java.awt.geom.AffineTransform
@@ -26,16 +29,11 @@
             (file-upload :file)
             (submit-button "Upload"))))
 
-(def galleries "galleries")
-(defn gallery-path []
-  (str galleries File/separator (session/get :user)))
+(def thumb-size 150)
 
 (defn serve-file [user-id file-name]
   (let [sep File/separator]
     (file-response (str galleries sep user-id sep file-name))))
-
-(def thumb-size 150)
-(def thumb-prefix "thumb_")
 
 (defn scale [img ratio width height]
   (let [scale (AffineTransform/getScaleInstance (double ratio)
@@ -64,15 +62,11 @@
    (if (empty? filename)
      "Please select a file to upload"
      (try
-       (noir.io/upload-file (gallery-path) file :create-path? true)
+       (noir.io/upload-file (gallery-path) file)
        (save-thumbnail file)
        (db/add-image (session/get :user) filename)
        (image {:height "150px"}
-              (str "/img/"
-                   (session/get :user)
-                   File/separator
-                   thumb-prefix
-                   (url-encode filename)))
+              (thumb-uri (session/get :user) filename))
        (catch Exception ex
          (str "Error uploading file " (.getMessage ex)))))))
 

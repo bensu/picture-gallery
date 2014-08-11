@@ -31,3 +31,15 @@ db
 quit
 (use '[picture-gallery.models.schema])
 (create-images-table)
+quit
+(use '[picture-gallery.routes.aut])
+(use '[picture-gallery.routes.auth])
+(use '[picture-gallery.models.schema])
+(create-gallery-path)
+(db/create-user {:id a :pass (crypt/encrypt locos)})
+(create-user {:id a :pass (crypt/encrypt locos)})
+(use '[picture-gallery.models.db])
+(create-user {:id a :pass (crypt/encrypt locos)})
+(create-user {:id "a" :pass (crypt/encrypt "locos")})
+(require '[noir.util.crypt :as crypt])
+(create-user {:id "a" :pass (crypt/encrypt "locos")})

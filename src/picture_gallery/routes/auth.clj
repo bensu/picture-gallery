@@ -8,7 +8,7 @@
             [noir.response :as resp]
             [noir.validation :as vali]
             [noir.util.crypt :as crypt]
-            [picture-gallery.routes.upload :refer [gallery-path]])
+            [picture-gallery.util :refer [gallery-path]])
   (:import java.io.File))
 
 (defn create-gallery-path []

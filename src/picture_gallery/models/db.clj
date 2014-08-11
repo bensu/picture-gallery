@@ -11,7 +11,7 @@
   `(sql/with-connection ~db (~f ~@body)))
 
 (defn create-user [user]
-  (with-db sql/insert-record :user user))
+  (with-db sql/insert-record :users user))
 
 (defn get-user [id]
   (with-db sql/with-query-results
