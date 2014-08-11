@@ -1,0 +1,16 @@
+(use '[picture-gallery.models.schema])
+(create-users-table)
+quir
+quit
+(use '[picture-gallery.models.schema])
+(create-users-table)
+quit
+(use '[picture-gallery.models.schema])
+(use '[picture-gallery.models.db])
+(create-users-table)
+db
+(create-users-table)
+(use '[picture-gallery.models.db])
+(create-users-table)
+(use '[picture-gallery.models.db] :reload)
+(create-users-table)
