@@ -17,6 +17,9 @@
   (with-db sql/with-query-results
     res ["select * from users where id = ?" id] (first res)))
 
+(defn delete-user [userid]
+  (with-db sql/delete-rows :users ["id=?" userid]))
+
 (defn add-image [userid name]
   (with-db
     sql/transaction

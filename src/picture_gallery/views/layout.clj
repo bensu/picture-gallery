@@ -41,7 +41,8 @@
   (make-menu
      (link-to "/" "Home")
      (link-to "/upload" "Upload Images")
-     (link-to "/logout" (str "Logout " user))))
+     (link-to "/logout" (str "Logout " user))
+     (link-to "/delete-account" "Delete Account")))
 
 (defn common [& content]
   (base
