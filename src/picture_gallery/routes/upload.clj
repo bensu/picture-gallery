@@ -8,6 +8,7 @@
             [noir.session :as session]
             [noir.response :as resp]
             [noir.util.route :refer [restricted]]
+            [taoensso.timbre :refer [trace debug info warn error fatal]]
             [clojure.java.io :as io]
             [ring.util.response :refer [file-response]]
             [picture-gallery.models.db :as db]
@@ -56,7 +57,6 @@
      "jpeg"
      (File. (str path thumb-prefix filename)))))
 
-
 (defn handle-upload [{:keys [filename] :as file}]
   (upload-page
    (if (empty? filename)
@@ -76,7 +76,9 @@
     (io/delete-file (str (gallery-path) File/separator name))
     (io/delete-file (str (gallery-path) File/separator thumb-prefix name))
     "ok"
-    (catch Exception ex (.getMessage ex))))
+    (catch Exception ex
+      (error ex "An error has occured while deleting" name)
+      (.getMessage ex))))
 
 (defn delete-images [names]
   (let [userid (session/get :user)]
