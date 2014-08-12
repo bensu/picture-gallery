@@ -47,3 +47,4 @@ quit
 (user '[picture-gallery.models.db])
 (use '[picture-gallery.models.db])
 (images-by-user "sbensu")
+quit
